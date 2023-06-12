@@ -78,12 +78,7 @@ namespace Library.Controllers
             return RedirectToAction(nameof(All));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Add(int id)
-        {
-            AddBookViewModel model = await bookService.GetNewAddBookModelAsync();
-            return View(model);
-        }
+     
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
@@ -97,7 +92,7 @@ namespace Library.Controllers
 
             return View(book);
         }
-
+        [HttpPost]
         public async Task<IActionResult> Edit(int id, AddBookViewModel model)
         {
             decimal rating;
