@@ -36,6 +36,7 @@ namespace Library.Data.Models
         [System.ComponentModel.DataAnnotations.Required]
         public Category Category { get; set; } = null!;
         public List<IdentityUserBook> UsersBooks { get; set; } = new List<IdentityUserBook>();
+        
 
 
     }

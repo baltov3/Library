@@ -122,5 +122,44 @@ namespace Library.Services
                 
             
         }
+
+        public async Task<AddBookViewModel?> GetBookByIdForEditAsync(int id)
+        {
+            var categories = await dbContext.Categories
+                .Select(c => new CategoryViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToListAsync();
+
+            return await dbContext.Books
+                .Where(b => b.Id == id)
+                .Select(b => new AddBookViewModel
+                {
+                    Title = b.Title,
+                    Author = b.Author,
+                    Url = b.ImageUrl,
+                    Description = b.Description,
+                    Rating = b.Rating.ToString(),
+                    CategoryId = b.CategoryId,
+                    Categories = categories
+                }).FirstOrDefaultAsync();
+        }
+            public async Task EditBookAsync(AddBookViewModel model, int id)
+        {
+            var book = await dbContext.Books.FindAsync(id);
+
+            if (book != null)
+            {
+                book.Title = model.Title;
+                book.Author = model.Author;
+                book.ImageUrl = model.Url;
+                book.Description = model.Description;
+                book.CategoryId = model.CategoryId;
+                book.Rating = decimal.Parse(model.Rating);
+
+                await dbContext.SaveChangesAsync();
+            }
+        }
     }
 }
